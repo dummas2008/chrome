@@ -1,0 +1,34 @@
+// Copyright 2015 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+module mash.wm.mojom;
+
+// Containers for windows. This list is in the z-order of the windows, however
+// they are actually built in a hierarchy (e.g. USER_WORKSPACE and LOGIN_WINDOWS
+// are siblings). See RootWindowController::CreateContainers() for the full
+// hierarchy. 
+enum Container {
+  ROOT = 0,
+  ALL_USER_BACKGROUND,
+  USER_WORKSPACE,
+  USER_BACKGROUND,
+  USER_PRIVATE,
+  USER_WINDOWS,
+  USER_STICKY_WINDOWS,
+  USER_PRESENTATION_WINDOWS,
+  USER_SHELF,
+  LOGIN_WINDOWS,
+  LOGIN_APP,    // TODO(beng): what about dialog boxes login opens?
+  LOGIN_SHELF,
+  // Bubble windows, for example the sysui system tray bubble and the screen
+  // brightness bubble.
+  BUBBLES,
+  SYSTEM_MODAL_WINDOWS,
+  KEYBOARD,
+  MENUS,
+  TOOLTIPS,
+  COUNT
+};
+
+const string kWindowContainer_Property = "ash:window-container";

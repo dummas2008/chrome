@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<script src="../../resources/js-test.js"></script>
+</head>
+<body>
+<script>
+description("Tests the RTCPeerConnection Ice functionality.");
+
+var pc = null;
+var iceCandidate = null;
+
+function onIceChange2()
+{
+    if (pc.iceConnectionState === "closed") {
+        testPassed("iceConnectionState is closed.");
+        finishJSTest();
+    }
+}
+
+function addIceCandidateSuccess()
+{
+    testPassed("addIceCandidateSuccess was called.");
+    pc.oniceconnectionstatechange = onIceChange2;
+    pc.close();
+}
+
+function unexpectedCallback()
+{
+    testFailed("unexpectedCallback was called.");
+    finishJSTest();
+}
+
+function expectedTypeError(error)
+{
+  window.error = error;
+  shouldBe('error.name', '"TypeError"');
+  testPassed("expectedTypeError was called.");
+}
+
+function onIceChange1()
+{
+    if (pc.iceConnectionState === "completed") {
+        testPassed("iceConnectionState is completed");
+        iceCandidate = new RTCIceCandidate({candidate:"nano nano"});
+        shouldNotThrow('pc.addIceCandidate(null, addIceCandidateSuccess, unexpectedCallback).catch(expectedTypeError);');
+        shouldNotThrow('pc.addIceCandidate(iceCandidate, null, unexpectedCallback).catch(expectedTypeError);');
+        shouldNotThrow('pc.addIceCandidate(iceCandidate, addIceCandidateSuccess, null).catch(expectedTypeError);');
+        shouldNotThrow('pc.addIceCandidate(iceCandidate, addIceCandidateSuccess, unexpectedCallback);');
+    }
+}
+
+function testExecutionOrderClosedConnection()
+{
+    var localPeerConnection = new webkitRTCPeerConnection(null, null);
+    localPeerConnection.close();
+    var counter = 0;
+    window.events = [];
+    Promise.resolve().then(_ => events[counter++] = 1);
+    var iceCandidate = new RTCIceCandidate({candidate:"nano nano"});
+    localPeerConnection.addIceCandidate(iceCandidate, unexpectedCallback, error => {
+        window.error = error;
+        shouldBe('error.name', '"InvalidStateError"');
+        shouldBe('error.toString()', '"InvalidStateError: The RTCPeerConnection\'s signalingState is \'closed\'."');
+        events[counter++] = 2;
+    });
+    Promise.resolve().then(_ => {
+        events[counter++] = 3; 
+        shouldBe('events', '[1,2,3]');
+    });
+}
+
+shouldNotThrow('testExecutionOrderClosedConnection()');
+shouldNotThrow('pc = new webkitRTCPeerConnection(null, null);');
+pc.oniceconnectionstatechange = onIceChange1;
+
+window.jsTestIsAsync = true;
+window.successfullyParsed = true;
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+// http://dev.chromium.org/blink/runtime-enabled-features
+//
+// This list is used to generate RuntimeEnabledFeatures.h/cpp which contains
+// a class that stores static enablers for all experimental features.
+//
+// Each feature can be assigned a "status":
+// status=stable -> Enable this in all Blink configurations.  We are committed to these APIs indefinitely.
+// status=experimental -> In-progress features, Web Developers might play with, but are not on by default in stable.
+// status=test -> Enabled in ContentShell for testing, otherwise off.
+// Features without a status are not enabled anywhere by default.
+//
+// "implied_by" or "depends_on" specifies relationship to other features:
+// implied_by=feature1[,feature2,...] -> The feature is automatically enabled if any implied_by features is enabled;
+// depends_on=feature1[,feature2,...] -> The feature is enabled only if all depends_on features are enabled.
+// Only one of "implied_by" and "depends_on" can be specified.
+//
+// "stable" features listed here should be rare, as anything which we've shipped stable
+// can have its runtime flag removed soon after.
+//
+// origin_trial_feature_name=FEATURE_NAME is used to integrate the feature with the experimental framework, so that the
+// feature can be enabled at runtime on a per-page basis through a signed token for the corresponding feature name.
+// Declaring the origin_trial_feature_name will cause a static method to be generated in OriginTrials.h/cpp. This static
+// method allows the feature implementation to check if it is enabled for the current context.
+
+AppBanner status=stable
+AlwaysUseComplexText status=stable
+ApplicationCache status=stable
+AudioOutputDevices status=stable
+AudioVideoTracks status=experimental
+BackgroundSync status=stable
+BackspaceDefaultHandler status=test
+CacheIgnoreSearchOption status=experimental
+Canvas2dImageChromium status=experimental
+ClientHints status=stable
+ColumnFill status=stable
+CompositedSelectionUpdate
+CompositorWorker status=experimental
+ContextMenu status=experimental
+CorsRFC1918 status=test
+CredentialManager status=stable
+CSS3Text status=experimental
+CSS3TextDecorations status=experimental
+CSSApplyAtRules status=experimental, depends_on=CSSVariables
+CSSAdditiveAnimations status=experimental, depends_on=StackedCSSPropertyAnimations
+CSSBackdropFilter status=experimental
+CSSBoxReflectFilter
+CSSContainment status=experimental
+CSSFontDisplay status=experimental
+CSSFontSizeAdjust status=experimental
+CSSGridLayout status=experimental
+CSSIndependentTransformProperties status=experimental
+CSSMaskSourceType status=experimental
+CSSOMSmoothScroll status=experimental
+CSSPaintAPI status=test, depends_on=Worklet
+CSSPropertyD status=experimental
+CSSSnapSize status=experimental
+CSSStickyPosition
+CSSTouchActionPanDirections status=experimental
+CSSTypedOM status=experimental
+CSSVariables status=stable
+CSSViewport status=experimental
+CSSScrollSnapPoints status=test
+CustomElementsV1 status=test
+CustomSchemeHandler depends_on=NavigatorContentUtils, status=experimental
+Database status=stable
+DecodeToYUV status=experimental
+DeviceLight status=experimental
+DeviceOrientationAbsolute status=stable
+DisplayList2dCanvas status=stable
+DocumentWriteEvaluator
+DurableStorage status=experimental
+ForceDisplayList2dCanvas
+// See crbug.com/585250.
+ForceDisable2dCanvasCopyOnWrite
+ExecCommandInJavaScript status=test
+ComputedAccessibilityInfo status=experimental
+EventListenerOptions status=stable
+ExperimentalCanvasFeatures status=test
+ExperimentalContentSecurityPolicyFeatures status=experimental
+ExperimentalFramework status=stable
+// Define a sample API for testing integration with the Experimental Framework.
+// The sample API is used in both unit and layout tests for the Experimental
+// Framework. Do not change this flag to stable, as it exists solely to generate
+// code used by the sample API implementation.
+ExperimentalFrameworkSampleAPI origin_trial_feature_name=Frobulate
+ExperimentalV8Extras status=experimental
+FastMobileScrolling
+FileAPIBlobClose status=experimental
+FileSystem status=stable
+ForeignFetch status=experimental
+FormDataNewMethods status=stable
+FullscreenUnprefixed status=test
+FrameTimingSupport status=experimental
+Geofencing status=experimental
+GeometryInterfaces status=test
+GetUserMedia depends_on=MediaDevices, status=experimental
+GlobalCacheStorage status=stable
+HiResEventTimeStamp status=stable
+ImageColorProfiles
+ImageOrientation status=test
+ImageRenderingPixelated status=stable
+IndexedDBExperimental status=experimental
+InertTopControls status=experimental
+InputDeviceCapabilities status=stable
+InputEvent status=experimental
+InputModeAttribute status=experimental
+InstalledApp status=experimental
+IntersectionObserver status=stable
+KeyboardEventCode status=stable
+KeyboardEventKey status=stable
+LangAttributeAwareFormControlUI
+LinkPreconnect status=stable
+LinkPreload status=stable
+LinkHeader status=stable
+LinkServiceWorker status=experimental
+FractionalScrollOffsets status=experimental
+MediaCapture
+MediaCaptureFromCanvas status=stable
+MediaCaptureFromVideo status=test
+MediaConstraints status=experimental
+MediaDevices status=stable
+MediaDocumentDownloadButton
+MediaRecorder status=stable
+MediaSession
+MediaSourceExperimental status=experimental
+MediaStreamSpeech status=experimental
+MemoryInfoInWorkers status=experimental
+MobileLayoutTheme
+ModuleScripts status=test
+NavigatorContentUtils
+WebNFC status=experimental
+NetworkInformation status=stable
+NetInfoDownlinkMax status=stable
+NewMediaPlaybackUi
+NotificationConstructor status=stable
+NotificationExperimental status=test
+NotificationActionIcons status=stable
+NotificationBadge status=experimental
+NotificationInlineReplies status=experimental
+Notifications status=stable
+OrientationEvent
+// For simulating Android's overlay fullscreen video in layout tests on Linux.
+ForceOverlayFullscreenVideo
+OverlayScrollbars
+PagePopup status=stable
+PassiveEventListeners status=stable
+PassPaintVisualRectToCompositor
+PathOpsSVGClipping status=stable
+PaymentRequest status=experimental
+PerformanceObserver status=experimental
+Permissions status=stable
+PermissionsRequestRevoke status=experimental
+PointerEvent
+PreciseMemoryInfo
+// This feature is deprecated and we are evangelizing affected sites.
+// See https://crbug.com/346236 for current status.
+PrefixedVideoFullscreen status=stable
+Presentation status=stable
+PresentationReceiver status=test
+PromiseRejectionEvent status=stable
+PushMessaging status=stable
+PushMessagingData status=stable
+PushSubscriptionRestrictions status=experimental
+QuotaPromise status=experimental
+ReducedReferrerGranularity
+RemotePlayback status=experimental
+RenderingPipelineThrottling status=experimental
+RequestIdleCallback status=stable
+RequestAutocomplete status=test
+ResponseConstructedWithReadableStream status=experimental
+ResponseBodyWithV8ExtraStream status=experimental
+RestrictIFramePermissions
+SandboxBlocksModals status=stable
+ScreenOrientation status=stable
+ScriptedSpeech status=stable
+// Scrolls to compensate for layout movements (bit.ly/scroll-anchoring).
+ScrollAnchoring
+// Implements documentElement.scrollTop/Left and bodyElement.scrollTop/Left
+// as per the spec, matching other Web engines.
+ScrollTopLeftInterop status=experimental
+ServiceWorkerClientAttributes status=stable
+ServiceWorkerExtendableMessageEvent status=stable
+ServiceWorkerClientsGetID status=stable
+ServiceWorkerWindowClientNavigate status=stable
+ShadowDOMV1 status=experimental
+SharedArrayBuffer
+SharedWorker status=stable
+SlimmingPaintInvalidation
+SlimmingPaintV2
+SlimmingPaintStrictCullRectClipping
+SlimmingPaintUnderInvalidationChecking
+// Used as argument in attribute of stable-release functions/interfaces where
+// a runtime-enabled feature name is required for correct IDL syntax.
+// This is a global flag; do not change its status.
+StableBlinkFeatures status=stable
+StackedCSSPropertyAnimations status=experimental
+StyleSharing status=stable
+StyleMatchedPropertiesCache status=stable
+// Do not turn this flag into stable, because many interfaces that should not
+// be shipped would be enabled. Instead, remove the flag from the shipping
+// interface.
+ExperimentalStream status=experimental
+Suborigins status=experimental
+// Many websites disable mouse support when touch APIs are available.  We'd
+// like to enable this always but can't until more websites fix this bug.
+// Chromium sets this conditionally (eg. based on the presence of a
+// touchscreen) in ApplyWebPreferences.
+SrcObject status=test
+Touch status=stable
+TraceWrappables
+TrustedEvents status=stable
+TrustedEventsDefaultAction
+UnsafeES3APIs
+UnsandboxedAuxiliary status=stable
+UserSelectAll status=experimental
+WebAnimationsAPI status=experimental
+WebAnimationsSVG status=experimental
+WebBluetooth origin_trial_feature_name=WebBluetooth
+WebGLDraftExtensions status=experimental
+WebGLImageChromium
+WebUSB status=experimental, origin_trial_feature_name=WebUSB
+WebVR depends_on=GeometryInterfaces, status=test
+WebVTTRegions status=experimental
+V8IdleTasks
+VisibilityChangeOnUnload status=experimental
+XSLT status=stable
+smil status=stable
+ScrollCustomization
+ScrollRestoration status=stable
+VisualViewportAPI status=experimental
+WakeLock status=experimental
+WebFontsIntervention status=experimental
+WebFontsInterventionTrigger
+Worklet status=test

@@ -1,0 +1,21 @@
+<video controls></video>
+<script src=media-file.js></script>
+<!-- TODO(philipj): Convert test to testharness.js. crbug.com/588956
+     (Please avoid writing new tests using video-test.js) -->
+<script src=video-test.js></script>
+
+<script>
+    testExpected("video.currentSrc", "");
+    var mediaFile = findMediaFile("video", "content/test");
+    var source = document.createElement("source");
+    source.setAttribute("src", mediaFile);
+    video.appendChild(source);
+
+    testExpected("video.currentSrc", "");
+
+    waitForEvent("canplaythrough", function () {
+        testExpected("stripExtension(relativeURL(video.currentSrc))", stripExtension(mediaFile));
+        endTest();
+    });
+
+</script>

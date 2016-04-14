@@ -1,0 +1,42 @@
+<html>
+<head>
+<script src="../../../http/tests/inspector/inspector-test.js"></script>
+<script src="../../../http/tests/inspector/debugger-test.js"></script>
+<script src="resources/resolve-variable-names-compressed.js"></script>
+<script>
+function test()
+{
+    Runtime.experiments.enableForTest("resolveVariableNames");
+    InspectorTest.startDebuggerTest(() => InspectorTest.runTestFunctionAndWaitUntilPaused());
+
+    var resolvedScopes = 0;
+    InspectorTest.addSniffer(WebInspector.SourceMapNamesResolver, "_scopeResolvedForTest", onScopeResolved, true);
+
+    function onScopeResolved()
+    {
+        if (++resolvedScopes === 2)
+            onAllScopesResolved();
+    }
+
+    function onAllScopesResolved()
+    {
+        InspectorTest.expandScopeVariablesSidebarPane(onSidebarsExpanded);
+    }
+
+    function onSidebarsExpanded()
+    {
+        InspectorTest.addResult("");
+        InspectorTest.dumpScopeVariablesSidebarPane();
+        InspectorTest.completeDebuggerTest();
+    }
+}
+
+</script>
+</head>
+
+<body onload="runTest()">
+<p>
+Tests resolving variable names via source maps.
+</p>
+</body>
+</html>

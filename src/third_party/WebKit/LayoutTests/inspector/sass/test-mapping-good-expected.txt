@@ -1,0 +1,11 @@
+Verify WI.ASTSourceMap rebaselines.
+
+Mapped CSS: 12
+Mapped SCSS: 12
+No stale entries found.
+
+Running: testRebase
+Mapped CSS: 12
+Mapped SCSS: 12
+No stale entries found.
+

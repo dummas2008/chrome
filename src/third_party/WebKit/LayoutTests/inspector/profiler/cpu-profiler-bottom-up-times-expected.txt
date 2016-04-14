@@ -1,0 +1,10 @@
+Tests bottom-up view self and total time calculation in CPU profiler.
+
+2: (idle) 300 300 300.0 ms30.00 %300.0 ms30.00 %(idle)
+1001: A 250 370 250.0 ms25.00 %370.0 ms37.00 %A
+2000: C 200 250 200.0 ms20.00 %250.0 ms25.00 %C
+1002: B 150 280 150.0 ms15.00 %280.0 ms28.00 %B
+3000: D 50 50 50.0 ms5.00 %50.0 ms5.00 %D
+
+Profiler was disabled.
+
